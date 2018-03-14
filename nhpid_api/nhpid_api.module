@@ -1672,11 +1672,7 @@ function nhpid_node_revision_diff_as_html_table($node, $revision_id) {
   
 }
 function timestamp_2_date($time_stamp) {
-  include_once 'Date.php';
-  $dateObj = new Date($time_stamp);
-  //$dateObj -> setTZbyID('UTC');
-  //$dateObj -> convertTZByID('EST'); 
-  return $dateObj -> getDate();
+ return date("Y-m-d H:i:s", $time_stamp);
 }
 function placeholder_query_2_normal_query($query, $args = array()) {
   $result = db_query($query, $args);
@@ -1825,8 +1821,9 @@ function nhpid_zip_files(&$dest, $filepaths, $replace = FILE_EXISTS_RENAME) {
 
     foreach ($filepaths as $filepath) {
       $local_path = pathinfo($filepath, PATHINFO_BASENAME);
-      $zip -> addfile($filepath, "nhpid_formula/$local_path");
-      //drupal_set_message(nhpid_api_dump($filepath, 'brown', TRUE));
+      if ($filepath){
+		$zip -> addfile($filepath, "nhpid_formula/$local_path");
+	  }
     }
   }
   else {
